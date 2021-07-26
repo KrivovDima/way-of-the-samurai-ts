@@ -1,0 +1,35 @@
+.dialogs {
+  display: flex;
+  justify-content: space-around;
+}
+
+.dialogItems,
+.messages {
+  padding: 20px;
+}
+
+.dialog {
+  margin-bottom: 10px;
+}
+
+.dialog a {
+  color: #636363;
+}
+
+.dialog a.active {
+  font-weight: 700;
+}
+
+
+.messages {
+  max-width: 800px;
+}
+
+.message {
+  margin-bottom: 10px;
+}
+
+.textMessage {
+  border: 1px solid #636363;
+  margin-right: 20px;
+}

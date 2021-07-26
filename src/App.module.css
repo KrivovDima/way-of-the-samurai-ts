@@ -1,0 +1,17 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
+
+
+.inner {
+  display: flex;
+  flex: 1 0 auto;
+}
+
+.mainContent {
+  flex-grow: 1;
+  background: linear-gradient(180deg, #F3F3FB 0%, #FDFBFD 100%);
+}

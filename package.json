@@ -19,10 +19,10 @@
     "web-vitals": "^1.0.1"
   },
   "scripts": {
-    "start": "../../way-of-the-samurai-typescript/node_modules/.bin/react-scripts start",
-    "build": "../../way-of-the-samurai-typescript/node_modules/.bin/react-scripts build",
-    "test": "../../way-of-the-samurai-typescript/node_modules/.bin/react-scripts test",
-    "eject": "../../way-of-the-samurai-typescript/node_modules/.bin/react-scripts eject"
+    "start": "./node_modules/.bin/react-scripts start",
+    "build": "./node_modules/.bin/react-scripts build",
+    "test": "./node_modules/.bin/react-scripts test",
+    "eject": "./node_modules/.bin/react-scripts eject"
   },
   "eslintConfig": {
     "extends": [

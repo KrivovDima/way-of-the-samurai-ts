@@ -24,6 +24,7 @@ function MyPosts(props: MyPostsPropsType) {
   const addPost = () => {
     if (textareaPostRef.current) {
       props.addPost(textareaPostRef.current.value);
+      textareaPostRef.current.value = '';
     }
   };
 

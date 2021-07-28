@@ -1,5 +1,3 @@
-import {rerenderAllTree} from "../render";
-
 export type postDataType = {
   id: number
   message: string
@@ -28,6 +26,10 @@ export type stateType = {
   profilePage: profilePageType
   dialogsPage: dialogsPageType
 }
+
+let rerenderAllTree = (state: stateType) => {
+
+};
 
 const state: stateType = {
   profilePage: {
@@ -70,5 +72,10 @@ export const updateTextPost = (text: string) => {
   state.profilePage.newTextPost = text;
   rerenderAllTree(state);
 }
+
+ export const subscribe = (observer: (state: stateType) => void) => {
+  rerenderAllTree = observer;
+}
+
 
 export default state;

@@ -11,34 +11,35 @@ export type messageDataType = {
   id: number
   message: string
 }
-
 export type profilePageType = {
   postsData: Array<postDataType>
   newTextPost: string
 }
-
 export type dialogsPageType = {
   dialogsData: Array<dialogDataType>
   messagesData: Array<messageDataType>
 }
-
 export type stateType = {
   profilePage: profilePageType
   dialogsPage: dialogsPageType
 }
-
 export type addPostType = () => void
-
 type observerType = (state: stateType) => void
-
 export type storeType = {
   _state: stateType
   _rerenderAllTree: (state: stateType) => void
-  addPost: () => void
-  updateTextPost: (text: string) => void
   getState: () => stateType
   subscribe: (observer: observerType) => void
+  dispatch: (action: actionType) => void
 }
+type addPostActionType = {
+  type: 'ADD-POST'
+}
+type updateTextPost = {
+  type: 'UPDATE-TEXT-POST'
+  text: string
+}
+export type actionType = addPostActionType | updateTextPost
 
 const store: storeType = {
   _state: {
@@ -64,27 +65,30 @@ const store: storeType = {
       ],
     }
   },
+  _rerenderAllTree(state: stateType) {
+  },
   getState() {
     return this._state;
   },
-  _rerenderAllTree(state: stateType) {
-  },
-  addPost() {
-    const newPost = {
-      id: 5,
-      message: this._state.profilePage.newTextPost,
-      likeCount: 0
-    };
-    this._state.profilePage.postsData.push(newPost);
-    this._state.profilePage.newTextPost = '';
-    this._rerenderAllTree(this._state);
-  },
-  updateTextPost(text: string) {
-    this._state.profilePage.newTextPost = text;
-    this._rerenderAllTree(this._state);
-  },
   subscribe(observer: observerType) {
     this._rerenderAllTree = observer;
+  },
+  dispatch(action) {
+    switch (action.type) {
+      case "ADD-POST":
+        const newPost = {
+          id: 5,
+          message: this._state.profilePage.newTextPost,
+          likeCount: 0
+        };
+        this._state.profilePage.postsData.push(newPost);
+        this._state.profilePage.newTextPost = '';
+        this._rerenderAllTree(this._state);
+        break;
+      case "UPDATE-TEXT-POST":
+        this._state.profilePage.newTextPost = action.text;
+        this._rerenderAllTree(this._state);
+    }
   }
 }
 

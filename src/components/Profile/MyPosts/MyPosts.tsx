@@ -1,13 +1,12 @@
 import React, {LegacyRef} from 'react';
-import {addPostType, postDataType} from '../../../redux/state';
+import {actionType, addPostType, postDataType} from '../../../redux/state';
 import Post from "./Post/Post";
 import styles from './MyPosts.module.css'
 
 type MyPostsPropsType = {
   postsData: Array<postDataType>
-  addPost: addPostType
   newTextPost: string
-  updateTextPost: (text: string) => void
+  dispatch: (action: actionType) => void
 }
 
 function MyPosts(props: MyPostsPropsType) {
@@ -25,14 +24,14 @@ function MyPosts(props: MyPostsPropsType) {
 
   const addPost = () => {
     if (textareaPostRef.current) {
-      props.addPost();
+      props.dispatch({type: "ADD-POST"});
       textareaPostRef.current.value = '';
     }
   };
 
   const onChangePost = () => {
     if (textareaPostRef.current) {
-      props.updateTextPost(textareaPostRef.current.value);
+      props.dispatch({type: "UPDATE-TEXT-POST", text: textareaPostRef.current.value});
     }
   }
 

@@ -1,5 +1,11 @@
 import React, {LegacyRef} from 'react';
-import {actionType, addPostType, postDataType} from '../../../redux/state';
+import {
+  actionType,
+  addPostActionCreator,
+  addPostType,
+  postDataType,
+  updateTextActionCreator
+} from '../../../redux/state';
 import Post from "./Post/Post";
 import styles from './MyPosts.module.css'
 
@@ -24,14 +30,14 @@ function MyPosts(props: MyPostsPropsType) {
 
   const addPost = () => {
     if (textareaPostRef.current) {
-      props.dispatch({type: "ADD-POST"});
+      props.dispatch(addPostActionCreator());
       textareaPostRef.current.value = '';
     }
   };
 
   const onChangePost = () => {
     if (textareaPostRef.current) {
-      props.dispatch({type: "UPDATE-TEXT-POST", text: textareaPostRef.current.value});
+      props.dispatch(updateTextActionCreator(textareaPostRef.current.value));
     }
   }
 

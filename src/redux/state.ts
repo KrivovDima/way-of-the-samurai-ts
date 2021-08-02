@@ -32,14 +32,10 @@ export type storeType = {
   subscribe: (observer: observerType) => void
   dispatch: (action: actionType) => void
 }
-type addPostActionType = {
-  type: 'ADD-POST'
-}
-type updateTextPost = {
-  type: 'UPDATE-TEXT-POST'
-  text: string
-}
-export type actionType = addPostActionType | updateTextPost
+export type actionType = ReturnType<typeof addPostActionCreator> | ReturnType<typeof updateTextActionCreator>
+
+const ADD_POST = 'ADD-POST';
+const UPDATE_TEXT_POST = 'UPDATE-TEXT-POST';
 
 const store: storeType = {
   _state: {
@@ -75,7 +71,7 @@ const store: storeType = {
   },
   dispatch(action) {
     switch (action.type) {
-      case "ADD-POST":
+      case ADD_POST:
         const newPost = {
           id: 5,
           message: this._state.profilePage.newTextPost,
@@ -85,11 +81,22 @@ const store: storeType = {
         this._state.profilePage.newTextPost = '';
         this._rerenderAllTree(this._state);
         break;
-      case "UPDATE-TEXT-POST":
+      case UPDATE_TEXT_POST:
         this._state.profilePage.newTextPost = action.text;
         this._rerenderAllTree(this._state);
     }
   }
+}
+
+export const addPostActionCreator = () => {
+  return {type: ADD_POST} as const
+}
+
+export const updateTextActionCreator = (text: string) => {
+  return {
+    type: UPDATE_TEXT_POST,
+    text: text
+  } as const
 }
 
 export default store;

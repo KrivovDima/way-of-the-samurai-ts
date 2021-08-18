@@ -1,11 +1,12 @@
-import React, {LegacyRef} from "react";
+import React, {ChangeEvent, LegacyRef} from "react";
 import styles from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
-import {dialogsPageType} from "../../redux/state";
+import {actionsType, addNewMessageAC, dialogsPageType, sendNewMessageAC} from "../../redux/state";
 
 type DialogsPropsType = {
   data: dialogsPageType
+  dispatch: (action: actionsType) => void
 }
 
 function Dialogs(props: DialogsPropsType) {
@@ -21,10 +22,8 @@ function Dialogs(props: DialogsPropsType) {
     )
   })
 
-  const messageTextRef: LegacyRef<HTMLTextAreaElement> = React.createRef();
-
-  const sendMessage = () => {
-    alert(messageTextRef.current?.value);
+  const onChangeMessageText = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    props.dispatch(addNewMessageAC(event.currentTarget.value));
   }
 
 
@@ -35,10 +34,16 @@ function Dialogs(props: DialogsPropsType) {
       </div>
       <div className={styles.messages}>
         {messageDataIteration}
-        <textarea ref={messageTextRef} className={styles.textMessage}>
+        <textarea value={props.data.newMessageText}
+                  className={styles.textMessage}
+                  onChange={onChangeMessageText}>
 
         </textarea>
-        <button onClick={sendMessage}>Send message</button>
+        <button onClick={() => {
+          props.dispatch(sendNewMessageAC())
+        }}>
+          Send message
+        </button>
       </div>
     </div>
   )

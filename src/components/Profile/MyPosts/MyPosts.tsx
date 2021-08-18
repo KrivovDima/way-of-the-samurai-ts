@@ -1,6 +1,6 @@
 import React, {LegacyRef} from 'react';
 import {
-  actionType,
+  actionsType,
   addPostActionCreator,
   addPostType,
   postDataType,
@@ -12,7 +12,7 @@ import styles from './MyPosts.module.css'
 type MyPostsPropsType = {
   postsData: Array<postDataType>
   newTextPost: string
-  dispatch: (action: actionType) => void
+  dispatch: (action: actionsType) => void
 }
 
 function MyPosts(props: MyPostsPropsType) {

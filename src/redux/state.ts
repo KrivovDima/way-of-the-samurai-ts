@@ -18,6 +18,7 @@ export type profilePageType = {
 export type dialogsPageType = {
   dialogsData: Array<dialogDataType>
   messagesData: Array<messageDataType>
+  newMessageText: string
 }
 export type stateType = {
   profilePage: profilePageType
@@ -30,12 +31,18 @@ export type storeType = {
   _rerenderAllTree: (state: stateType) => void
   getState: () => stateType
   subscribe: (observer: observerType) => void
-  dispatch: (action: actionType) => void
+  dispatch: (action: actionsType) => void
 }
-export type actionType = ReturnType<typeof addPostActionCreator> | ReturnType<typeof updateTextActionCreator>
+export type actionsType =
+  ReturnType<typeof addPostActionCreator>
+  | ReturnType<typeof updateTextActionCreator>
+  | ReturnType<typeof addNewMessageAC>
+  | ReturnType<typeof sendNewMessageAC>
 
 const ADD_POST = 'ADD-POST';
 const UPDATE_TEXT_POST = 'UPDATE-TEXT-POST';
+const ADD_NEW_MESSAGE = 'ADD_NEW_MESSAGE';
+const SEND_NEW_MESSAGE = 'SEND_NEW_MESSAGE';
 
 const store: storeType = {
   _state: {
@@ -59,6 +66,7 @@ const store: storeType = {
         {id: 2, message: 'Lorem ipsum dolor sit amet'},
         {id: 3, message: 'Lorem ipsum dolor sit amet, consectetur'},
       ],
+      newMessageText: '',
     }
   },
   _rerenderAllTree(state: stateType) {
@@ -71,7 +79,7 @@ const store: storeType = {
   },
   dispatch(action) {
     switch (action.type) {
-      case ADD_POST:
+      case ADD_POST: {
         const newPost = {
           id: 5,
           message: this._state.profilePage.newTextPost,
@@ -81,9 +89,24 @@ const store: storeType = {
         this._state.profilePage.newTextPost = '';
         this._rerenderAllTree(this._state);
         break;
-      case UPDATE_TEXT_POST:
+      }
+      case UPDATE_TEXT_POST: {
         this._state.profilePage.newTextPost = action.text;
         this._rerenderAllTree(this._state);
+        break;
+      }
+      case ADD_NEW_MESSAGE: {
+        this._state.dialogsPage.newMessageText = action.text;
+        this._rerenderAllTree(this._state);
+        break;
+      }
+      case SEND_NEW_MESSAGE: {
+        const newMessage = {id: 3, message: this._state.dialogsPage.newMessageText};
+        this._state.dialogsPage.newMessageText = '';
+        this._state.dialogsPage.messagesData.push(newMessage);
+        this._rerenderAllTree(this._state);
+        break;
+      }
     }
   }
 }
@@ -91,12 +114,23 @@ const store: storeType = {
 export const addPostActionCreator = () => {
   return {type: ADD_POST} as const
 }
-
 export const updateTextActionCreator = (text: string) => {
   return {
     type: UPDATE_TEXT_POST,
     text: text
   } as const
 }
+export const addNewMessageAC = (text: string) => {
+  return {
+    type: ADD_NEW_MESSAGE,
+    text
+  } as const
+}
+export const sendNewMessageAC = () => {
+  return {
+    type: SEND_NEW_MESSAGE
+  } as const
+}
+
 
 export default store;

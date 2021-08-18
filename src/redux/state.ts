@@ -1,3 +1,6 @@
+import profileReducer from "./profileReducer";
+import dialogsReducer from "./dialogsReducer";
+
 export type postDataType = {
   id: number
   message: string
@@ -78,36 +81,9 @@ const store: storeType = {
     this._rerenderAllTree = observer;
   },
   dispatch(action) {
-    switch (action.type) {
-      case ADD_POST: {
-        const newPost = {
-          id: 5,
-          message: this._state.profilePage.newTextPost,
-          likeCount: 0
-        };
-        this._state.profilePage.postsData.push(newPost);
-        this._state.profilePage.newTextPost = '';
-        this._rerenderAllTree(this._state);
-        break;
-      }
-      case UPDATE_TEXT_POST: {
-        this._state.profilePage.newTextPost = action.text;
-        this._rerenderAllTree(this._state);
-        break;
-      }
-      case ADD_NEW_MESSAGE: {
-        this._state.dialogsPage.newMessageText = action.text;
-        this._rerenderAllTree(this._state);
-        break;
-      }
-      case SEND_NEW_MESSAGE: {
-        const newMessage = {id: 3, message: this._state.dialogsPage.newMessageText};
-        this._state.dialogsPage.newMessageText = '';
-        this._state.dialogsPage.messagesData.push(newMessage);
-        this._rerenderAllTree(this._state);
-        break;
-      }
-    }
+    this._state.profilePage = profileReducer(this._state.profilePage, action);
+    this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
+    this._rerenderAllTree(this._state);
   }
 }
 

@@ -1,5 +1,5 @@
-import profileReducer from "./profileReducer";
-import dialogsReducer from "./dialogsReducer";
+import profileReducer, {addPostActionCreator, updateTextActionCreator} from "./profileReducer";
+import dialogsReducer, {addNewMessageAC, sendNewMessageAC} from "./dialogsReducer";
 
 export type postDataType = {
   id: number
@@ -31,7 +31,7 @@ export type addPostType = () => void
 type observerType = (state: stateType) => void
 export type storeType = {
   _state: stateType
-  _rerenderAllTree: (state: stateType) => void
+  _callSubscriber: (state: stateType) => void
   getState: () => stateType
   subscribe: (observer: observerType) => void
   dispatch: (action: actionsType) => void
@@ -41,11 +41,6 @@ export type actionsType =
   | ReturnType<typeof updateTextActionCreator>
   | ReturnType<typeof addNewMessageAC>
   | ReturnType<typeof sendNewMessageAC>
-
-const ADD_POST = 'ADD-POST';
-const UPDATE_TEXT_POST = 'UPDATE-TEXT-POST';
-const ADD_NEW_MESSAGE = 'ADD_NEW_MESSAGE';
-const SEND_NEW_MESSAGE = 'SEND_NEW_MESSAGE';
 
 const store: storeType = {
   _state: {
@@ -72,40 +67,19 @@ const store: storeType = {
       newMessageText: '',
     }
   },
-  _rerenderAllTree(state: stateType) {
+  _callSubscriber(state: stateType) {
   },
   getState() {
     return this._state;
   },
   subscribe(observer: observerType) {
-    this._rerenderAllTree = observer;
+    this._callSubscriber = observer;
   },
   dispatch(action) {
     this._state.profilePage = profileReducer(this._state.profilePage, action);
     this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
-    this._rerenderAllTree(this._state);
+    this._callSubscriber(this._state);
   }
-}
-
-export const addPostActionCreator = () => {
-  return {type: ADD_POST} as const
-}
-export const updateTextActionCreator = (text: string) => {
-  return {
-    type: UPDATE_TEXT_POST,
-    text: text
-  } as const
-}
-export const addNewMessageAC = (text: string) => {
-  return {
-    type: ADD_NEW_MESSAGE,
-    text
-  } as const
-}
-export const sendNewMessageAC = () => {
-  return {
-    type: SEND_NEW_MESSAGE
-  } as const
 }
 
 

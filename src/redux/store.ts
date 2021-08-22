@@ -29,7 +29,9 @@ export type stateType = {
 }
 export type addPostType = () => void
 type observerType = (state: stateType) => void
-export type storeType = {
+
+
+type storeType = {
   _state: stateType
   _callSubscriber: (state: stateType) => void
   getState: () => stateType
@@ -75,7 +77,7 @@ const store: storeType = {
   subscribe(observer: observerType) {
     this._callSubscriber = observer;
   },
-  dispatch(action) {
+  dispatch(action: any) {
     this._state.profilePage = profileReducer(this._state.profilePage, action);
     this._state.dialogsPage = dialogsReducer(this._state.dialogsPage, action);
     this._callSubscriber(this._state);
@@ -83,4 +85,3 @@ const store: storeType = {
 }
 
 
-export default store;

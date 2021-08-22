@@ -7,7 +7,8 @@ import {addNewMessageAC, sendNewMessageAC} from "../../redux/dialogsReducer";
 
 type DialogsPropsType = {
   data: dialogsPageType
-  dispatch: (action: actionsType) => void
+  addNewMessage: (text: string) => void
+  sendNewMessage: () => void
 }
 
 function Dialogs(props: DialogsPropsType) {
@@ -24,7 +25,7 @@ function Dialogs(props: DialogsPropsType) {
   })
 
   const onChangeMessageText = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    props.dispatch(addNewMessageAC(event.currentTarget.value));
+    props.addNewMessage(event.currentTarget.value);
   }
 
 
@@ -41,7 +42,7 @@ function Dialogs(props: DialogsPropsType) {
 
         </textarea>
         <button onClick={() => {
-          props.dispatch(sendNewMessageAC())
+          props.sendNewMessage()
         }}>
           Send message
         </button>

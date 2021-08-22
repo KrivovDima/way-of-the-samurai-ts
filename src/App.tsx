@@ -3,38 +3,33 @@ import styles from './App.module.css';
 import Header from "./components/Header/Header";
 import Menu from "./components/Menu/Menu";
 import Profile from "./components/Profile/Profile";
-import Dialogs from "./components/Dialogs/Dialogs";
-import {BrowserRouter, Route} from "react-router-dom";
+import {Route} from "react-router-dom";
 import News from "./components/News/News";
 import Music from './components/Music/Music';
 import Settings from "./components/Settings/Settings";
-import {actionsType, stateType,} from "./redux/store";
+import DialogsContainer from "./components/Dialogs/DialogsContainer";
+import {storeType} from "./redux/redux-store";
 
-type AppPropsType = {
-  state: stateType
-  dispatch: (action: actionsType) => void
-}
+// type AppPropsType = {
+//   store: storeType
+// }
 
-function App(props: AppPropsType) {
+function App() {
   return (
-    <BrowserRouter>
-      <div className={styles.app}>
-        <Header/>
-        <div className={styles.inner}>
-          <Menu/>
-          <div className={styles.mainContent}>
-            <Route path='/profile' render={() => <Profile data={props.state.profilePage}
-                                                          dispatch={props.dispatch}/>}
-            />
-            <Route path='/dialogs' render={() => <Dialogs data={props.state.dialogsPage}
-                                                          dispatch={props.dispatch}/>}/>
-            <Route path='/news' render={() => <News/>}/>
-            <Route path='/music' render={() => <Music/>}/>
-            <Route path='/settings' render={() => <Settings/>}/>
-          </div>
+    <div className={styles.app}>
+      <Header/>
+      <div className={styles.inner}>
+        <Menu/>
+        <div className={styles.mainContent}>
+          <Route path='/profile' render={() => <Profile/>}
+          />
+          <Route path='/dialogs' render={() => <DialogsContainer/>}/>
+          <Route path='/news' render={() => <News/>}/>
+          <Route path='/music' render={() => <Music/>}/>
+          <Route path='/settings' render={() => <Settings/>}/>
         </div>
       </div>
-    </BrowserRouter>
+    </div>
   );
 }
 

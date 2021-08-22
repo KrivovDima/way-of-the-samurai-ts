@@ -1,4 +1,4 @@
-import React, {LegacyRef} from 'react';
+import React, {ChangeEvent, LegacyRef} from 'react';
 import {
   actionsType,
   postDataType,
@@ -10,7 +10,8 @@ import {addPostActionCreator, updateTextActionCreator} from "../../../redux/prof
 type MyPostsPropsType = {
   postsData: Array<postDataType>
   newTextPost: string
-  dispatch: (action: actionsType) => void
+  addPost: () => void
+  updateText: (text: string) => void
 }
 
 function MyPosts(props: MyPostsPropsType) {
@@ -24,26 +25,18 @@ function MyPosts(props: MyPostsPropsType) {
     )
   });
 
-  const textareaPostRef: LegacyRef<HTMLTextAreaElement> = React.createRef();
-
   const addPost = () => {
-    if (textareaPostRef.current) {
-      props.dispatch(addPostActionCreator());
-      textareaPostRef.current.value = '';
-    }
+    props.addPost();
   };
 
-  const onChangePost = () => {
-    if (textareaPostRef.current) {
-      props.dispatch(updateTextActionCreator(textareaPostRef.current.value));
-    }
+  const onChangePost = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    props.updateText(event.currentTarget.value)
   }
 
   return (
     <div>
       <textarea value={props.newTextPost}
                 className={styles.postText}
-                ref={textareaPostRef}
                 onChange={onChangePost}/>
       <button onClick={addPost}>Add post</button>
       {postDataIteration}

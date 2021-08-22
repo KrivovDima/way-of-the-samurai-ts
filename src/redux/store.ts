@@ -1,28 +1,7 @@
-import profileReducer, {addPostActionCreator, updateTextActionCreator} from "./profileReducer";
-import dialogsReducer, {addNewMessageAC, sendNewMessageAC} from "./dialogsReducer";
+import profileReducer, {actionsType, profilePageType} from "./profileReducer";
+import dialogsReducer, {dialogsPageType} from "./dialogsReducer";
 
-export type postDataType = {
-  id: number
-  message: string
-  likeCount: number
-}
-export type dialogDataType = {
-  id: number
-  name: string
-}
-export type messageDataType = {
-  id: number
-  message: string
-}
-export type profilePageType = {
-  postsData: Array<postDataType>
-  newTextPost: string
-}
-export type dialogsPageType = {
-  dialogsData: Array<dialogDataType>
-  messagesData: Array<messageDataType>
-  newMessageText: string
-}
+
 export type stateType = {
   profilePage: profilePageType
   dialogsPage: dialogsPageType
@@ -38,11 +17,7 @@ type storeType = {
   subscribe: (observer: observerType) => void
   dispatch: (action: actionsType) => void
 }
-export type actionsType =
-  ReturnType<typeof addPostActionCreator>
-  | ReturnType<typeof updateTextActionCreator>
-  | ReturnType<typeof addNewMessageAC>
-  | ReturnType<typeof sendNewMessageAC>
+
 
 const store: storeType = {
   _state: {

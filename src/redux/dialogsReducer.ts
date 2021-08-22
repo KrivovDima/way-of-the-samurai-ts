@@ -1,4 +1,18 @@
-import {actionsType, dialogsPageType} from "./store";
+import {actionsType} from "./profileReducer";
+
+export type dialogDataType = {
+  id: number
+  name: string
+}
+export type messageDataType = {
+  id: number
+  message: string
+}
+export type dialogsPageType = {
+  dialogsData: Array<dialogDataType>
+  messagesData: Array<messageDataType>
+  newMessageText: string
+}
 
 const ADD_NEW_MESSAGE = 'ADD_NEW_MESSAGE';
 const SEND_NEW_MESSAGE = 'SEND_NEW_MESSAGE';

@@ -1,11 +1,7 @@
 import React, {ChangeEvent, LegacyRef} from 'react';
-import {
-  actionsType,
-  postDataType,
-} from '../../../redux/store';
 import Post from "./Post/Post";
 import styles from './MyPosts.module.css'
-import {addPostActionCreator, updateTextActionCreator} from "../../../redux/profileReducer";
+import {postDataType} from "../../../redux/profileReducer";
 
 type MyPostsPropsType = {
   postsData: Array<postDataType>

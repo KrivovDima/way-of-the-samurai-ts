@@ -1,5 +1,5 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import {NavLink} from 'react-router-dom';
 import styles from "./Menu.module.css";
 
 function Menu() {
@@ -11,6 +11,9 @@ function Menu() {
         </li>
         <li className={styles.item}>
           <NavLink to="/dialogs" className={styles.link} activeClassName={styles.active}>Message</NavLink>
+        </li>
+        <li className={styles.item}>
+          <NavLink to="/users" className={styles.link} activeClassName={styles.active}>Users</NavLink>
         </li>
         <li className={styles.item}>
           <NavLink to="/news" className={styles.link} activeClassName={styles.active}>News</NavLink>

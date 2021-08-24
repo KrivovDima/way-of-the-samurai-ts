@@ -7,61 +7,17 @@ const SET_USERS = 'SET-USERS';
 export type userType = {
   id: number
   followed: boolean
-  photoUrl: string
-  fullName: string
+  photos: { small: null | string, large: null | string }
+  name: string
   status: string
   location: { city: string, country: string }
 }
 
+type initialStateType = []
 
-const initialState = [
-  {
-    id: 1,
-    followed: true,
-    photoUrl: 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png',
-    fullName: 'Dima',
-    status: 'learn React',
-    location: {
-      city: 'Astrakhan',
-      country: 'Russia'
-    },
-  },
-  {
-    id: 2,
-    followed: true,
-    photoUrl: 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png',
-    fullName: 'Aliya',
-    status: 'Nail master',
-    location: {
-      city: 'Astrakhan',
-      country: 'Russia'
-    },
-  },
-  {
-    id: 3,
-    followed: false,
-    photoUrl: 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png',
-    fullName: 'Dasha',
-    status: 'learn to school',
-    location: {
-      city: 'Astrakhan',
-      country: 'Russia'
-    },
-  },
-  {
-    id: 4,
-    followed: false,
-    photoUrl: 'https://cdn.icon-icons.com/icons2/1378/PNG/512/avatardefault_92824.png',
-    fullName: 'Masha',
-    status: 'learn to school',
-    location: {
-      city: 'Astrakhan',
-      country: 'Russia'
-    },
-  },
-]
+const initialState: initialStateType = []
 
-export const usersReducer = (state: Array<userType> = initialState, action: actionsType): Array<userType> => {
+export const usersReducer = (state: Array<userType> | initialStateType = initialState, action: actionsType): Array<userType> => {
   switch (action.type) {
     case CHANGE_TO_FOLLOW: {
       return state.map(u => u.id === action.userID ? {...u, followed: true} : u)

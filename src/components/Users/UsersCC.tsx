@@ -1,20 +1,57 @@
 import React from "react";
 import styles from './Users.module.css'
-import {userType} from "../../redux/usersReducer";
 import axios from "axios";
 import defaultUserPhoto from "../../assets/default-user-photo.png";
-import {UsersPropsType} from "./Users";
+import {userType} from "../../redux/usersReducer";
 
-class UsersCC extends React.Component<UsersPropsType> {
+type UsersCCPropsType = {
+  users: Array<userType>
+  countUsers: number
+  currentPage: number
+  totalCount: number
+  changeToFollow: (userID: number) => void
+  changeToUnfollow: (userID: number) => void
+  setUsers: (users: Array<userType>) => void
+  setTotalCount: (totalCount: number) => void
+  setCurrentPage: (currentPage: number) => void
+}
+
+class UsersCC extends React.Component<UsersCCPropsType> {
   componentDidMount() {
-    axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
+    axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.countUsers}`).then(response => {
+      this.props.setUsers(response.data.items)
+      this.props.setTotalCount(response.data.totalCount)
+    })
+  }
+
+  onClickPage = (pageNumber: number) => {
+    this.props.setCurrentPage(pageNumber)
+    axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.countUsers}&page=${pageNumber}`).then(response => {
       this.props.setUsers(response.data.items)
     })
   }
 
   render() {
+    const pagesCount = Math.ceil(this.props.totalCount / this.props.countUsers)
+    const pages = []
+    for (let i = 1; i <= pagesCount; i++) {
+      pages.push(i)
+    }
+
     return (
       <div className={styles.users}>
+        <ul className={styles.pages}>
+          {pages.map(page => {
+            return (
+              <li onClick={() => {
+                this.onClickPage(page)
+              }}
+                  className={`${styles.page} ${page === this.props.currentPage && styles.activePage}`}>
+                {page}
+              </li>
+            )
+          })}
+        </ul>
         <ul className={styles.usersList}>
 
           {

@@ -66,3 +66,23 @@
   color: #FF3366;
   background-color: rgba(255, 51, 102, 0.25);;
 }
+
+.pages {
+  margin-bottom: 20px;
+  display: flex;
+  max-width: 1000px;
+  overflow: hidden;
+}
+
+.pages li + li {
+  margin-left: 5px;
+}
+
+.page {
+  display: inline-block;
+  cursor: pointer;
+}
+
+.activePage {
+  font-weight: 700;
+}

@@ -1,27 +1,39 @@
 import React from "react";
-import styles from './Users.module.css'
-import {userType} from "../../redux/usersReducer";
-import axios from "axios";
+import styles from "./Users.module.css";
 import defaultUserPhoto from "../../assets/default-user-photo.png";
+import {userType} from "../../redux/usersReducer";
 
 export type UsersPropsType = {
   users: Array<userType>
+  countUsers: number
+  currentPage: number
+  totalCount: number
   changeToFollow: (userID: number) => void
   changeToUnfollow: (userID: number) => void
-  setUsers: (users: Array<userType>) => void
+  onClickPage: (page: number) => void
 }
 
 function Users(props: UsersPropsType) {
-  if (props.users.length === 0) {
-    axios.get('https://social-network.samuraijs.com/api/1.0/users').then(response => {
-      props.setUsers(response.data.items)
-    })
-
-
+  const pagesCount = Math.ceil(props.totalCount / props.countUsers)
+  const pages = []
+  for (let i = 1; i <= pagesCount; i++) {
+    pages.push(i)
   }
 
   return (
     <div className={styles.users}>
+      <ul className={styles.pages}>
+        {pages.map(page => {
+          return (
+            <li onClick={() => {
+              props.onClickPage(page)
+            }}
+                className={`${styles.page} ${page === props.currentPage && styles.activePage}`}>
+              {page}
+            </li>
+          )
+        })}
+      </ul>
       <ul className={styles.usersList}>
 
         {

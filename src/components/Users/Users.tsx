@@ -2,6 +2,7 @@ import React from "react";
 import styles from "./Users.module.css";
 import defaultUserPhoto from "../../assets/default-user-photo.png";
 import {userType} from "../../redux/usersReducer";
+import Preloader from "../Preloader/Preloader";
 
 export type UsersPropsType = {
   users: Array<userType>
@@ -11,6 +12,7 @@ export type UsersPropsType = {
   changeToFollow: (userID: number) => void
   changeToUnfollow: (userID: number) => void
   onClickPage: (page: number) => void
+  preloader: boolean
 }
 
 function Users(props: UsersPropsType) {
@@ -22,18 +24,23 @@ function Users(props: UsersPropsType) {
 
   return (
     <div className={styles.users}>
-      <ul className={styles.pages}>
-        {pages.map(page => {
-          return (
-            <li onClick={() => {
-              props.onClickPage(page)
-            }}
-                className={`${styles.page} ${page === props.currentPage && styles.activePage}`}>
-              {page}
-            </li>
-          )
-        })}
-      </ul>
+      <div className={styles.usersBox}>
+        <ul className={styles.pages}>
+          {pages.map(page => {
+            return (
+              <li onClick={() => {
+                props.onClickPage(page)
+              }}
+                  className={`${styles.page} ${page === props.currentPage && styles.activePage}`}>
+                {page}
+              </li>
+            )
+          })}
+        </ul>
+        <div className={styles.preloaderWrapper}>
+          {props.preloader && <Preloader/>}
+        </div>
+      </div>
       <ul className={styles.usersList}>
 
         {

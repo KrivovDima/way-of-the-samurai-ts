@@ -68,9 +68,8 @@
 }
 
 .pages {
-  margin-bottom: 20px;
   display: flex;
-  max-width: 1000px;
+  max-width: 600px;
   overflow: hidden;
 }
 
@@ -85,4 +84,15 @@
 
 .activePage {
   font-weight: 700;
+}
+
+.usersBox {
+  min-height: 40px;
+  display: flex;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.preloaderWrapper {
+  margin-left: 15px;
 }

@@ -47,7 +47,8 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
                   changeToFollow={this.props.changeToFollow}
                   changeToUnfollow={this.props.changeToUnfollow}
                   currentPage={this.props.currentPage}
-                  onClickPage={this.onClickPage}/>
+                  onClickPage={this.onClickPage}
+                  preloader={}/>
   }
 }
 

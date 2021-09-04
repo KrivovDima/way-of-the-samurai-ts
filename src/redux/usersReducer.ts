@@ -5,6 +5,7 @@ const CHANGE_TO_UNFOLLOW = 'CHANGE-TO-UNFOLLOW';
 const SET_USERS = 'SET-USERS';
 const SET_TOTAL_COUNT = 'SET-TOTAL-COUNT';
 const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE';
+const CHANGE_FETCH_STATUS = 'CHANGE-FETCH-STATUS';
 
 export type userType = {
   id: number
@@ -19,6 +20,7 @@ export type UsersPageStateType = {
   countUsers: number
   totalCount: number
   currentPage: number
+  isFetch: boolean
 }
 
 const initialState: UsersPageStateType = {
@@ -26,6 +28,7 @@ const initialState: UsersPageStateType = {
   countUsers: 5,
   currentPage: 1,
   totalCount: 0,
+  isFetch: false,
 }
 
 export const usersReducer = (state: UsersPageStateType = initialState, action: actionsType): UsersPageStateType => {
@@ -58,6 +61,12 @@ export const usersReducer = (state: UsersPageStateType = initialState, action: a
       return {
         ...state,
         currentPage: action.currentPage,
+      }
+    }
+    case CHANGE_FETCH_STATUS: {
+      return {
+        ...state,
+        isFetch: action.value,
       }
     }
     default: {
@@ -98,5 +107,12 @@ export const setCurrentPageAC = (currentPage: number) => {
   return {
     type: SET_CURRENT_PAGE,
     currentPage,
+  } as const
+}
+
+export const changeFetchStatusAC = (value: boolean) => {
+  return {
+    type: CHANGE_FETCH_STATUS,
+    value,
   } as const
 }

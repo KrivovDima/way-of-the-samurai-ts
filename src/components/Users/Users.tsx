@@ -63,7 +63,7 @@ function Users(props: UsersPropsType) {
                   </div>
                 </div>
                 <div className={styles.userInfo}>
-                  <div>{user.status}</div>
+                  <div className={styles.userStatus}>{user.status}</div>
                   <button onClick={() => {
                     user.followed ? props.changeToUnfollow(user.id) : props.changeToFollow(user.id)
                   }}

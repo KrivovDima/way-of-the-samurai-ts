@@ -1,6 +1,7 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
+  changeFetchStatusAC,
   changeToFollowAC,
   changeToUnfollowAC,
   setCurrentPageAC,
@@ -18,25 +19,31 @@ type UsersContainerPropsType = {
   countUsers: number
   currentPage: number
   totalCount: number
+  isFetch: boolean
   changeToFollow: (userID: number) => void
   changeToUnfollow: (userID: number) => void
   setUsers: (users: Array<userType>) => void
   setTotalCount: (totalCount: number) => void
   setCurrentPage: (currentPage: number) => void
+  changeFetchStatus: (value: boolean) => void
 }
 
 class UsersContainer extends React.Component<UsersContainerPropsType> {
   componentDidMount() {
+    this.props.changeFetchStatus(true)
     axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.countUsers}`).then(response => {
       this.props.setUsers(response.data.items)
       this.props.setTotalCount(response.data.totalCount)
+      this.props.changeFetchStatus(false)
     })
   }
 
   onClickPage = (pageNumber: number) => {
     this.props.setCurrentPage(pageNumber)
+    this.props.changeFetchStatus(true)
     axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.countUsers}&page=${pageNumber}`).then(response => {
       this.props.setUsers(response.data.items)
+      this.props.changeFetchStatus(false)
     })
   }
 
@@ -48,7 +55,7 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
                   changeToUnfollow={this.props.changeToUnfollow}
                   currentPage={this.props.currentPage}
                   onClickPage={this.onClickPage}
-                  preloader={}/>
+                  preloader={this.props.isFetch}/>
   }
 }
 
@@ -58,6 +65,7 @@ const mapStateToProps = (state: StateType) => {
     countUsers: state.usersPage.countUsers,
     currentPage: state.usersPage.currentPage,
     totalCount: state.usersPage.totalCount,
+    isFetch: state.usersPage.isFetch,
   }
 }
 
@@ -78,6 +86,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => {
     setCurrentPage: (currentPage: number) => {
       dispatch(setCurrentPageAC(currentPage))
     },
+    changeFetchStatus: (value: boolean) => {
+      dispatch(changeFetchStatusAC(value))
+    }
   }
 }
 

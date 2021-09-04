@@ -1,5 +1,12 @@
 import {addNewMessageAC, sendNewMessageAC} from "./dialogsReducer";
-import {changeToFollowAC, changeToUnfollowAC, setCurrentPageAC, setTotalCountAC, setUsersAC} from "./usersReducer";
+import {
+  changeFetchStatusAC,
+  changeToFollowAC,
+  changeToUnfollowAC,
+  setCurrentPageAC,
+  setTotalCountAC,
+  setUsersAC
+} from "./usersReducer";
 
 //TODO: зарефакторить типы actions (чтобы не находились все в этом файле)
 export type actionsType =
@@ -12,6 +19,7 @@ export type actionsType =
   | ReturnType<typeof setUsersAC>
   | ReturnType<typeof setTotalCountAC>
   | ReturnType<typeof setCurrentPageAC>
+  | ReturnType<typeof changeFetchStatusAC>
 export type postDataType = {
   id: number
   message: string

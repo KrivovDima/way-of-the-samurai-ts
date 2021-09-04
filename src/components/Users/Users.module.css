@@ -87,7 +87,7 @@
 }
 
 .usersBox {
-  min-height: 40px;
+  min-height: 42px;
   display: flex;
   align-items: center;
   margin-bottom: 20px;
@@ -95,4 +95,11 @@
 
 .preloaderWrapper {
   margin-left: 15px;
+}
+
+.userStatus {
+  max-width: 350px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
 }

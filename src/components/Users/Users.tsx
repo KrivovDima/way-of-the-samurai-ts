@@ -3,6 +3,7 @@ import styles from "./Users.module.css";
 import defaultUserPhoto from "../../assets/default-user-photo.png";
 import {userType} from "../../redux/usersReducer";
 import Preloader from "../Preloader/Preloader";
+import {NavLink} from "react-router-dom";
 
 export type UsersPropsType = {
   users: Array<userType>
@@ -48,15 +49,17 @@ function Users(props: UsersPropsType) {
             return (
               <li key={user.id} className={styles.usersItem}>
                 <div className={styles.inner}>
-                  <div className={styles.box}>
-                    <div className={styles.userPhoto}>
-                      <img src={user.photos.small !== null ? user.photos.small : defaultUserPhoto}
-                           alt="user-photo"/>
+                  <NavLink className={styles.userLink} to={`/profile/${user.id}`}>
+                    <div className={styles.box}>
+                      <div className={styles.userPhoto}>
+                        <img src={user.photos.small !== null ? user.photos.small : defaultUserPhoto}
+                             alt="user-photo"/>
+                      </div>
+                      <div className={styles.userName}>
+                        {user.name}
+                      </div>
                     </div>
-                    <div className={styles.userName}>
-                      {user.name}
-                    </div>
-                  </div>
+                  </NavLink>
                   <div className={styles.userLocation}>
                     <div>{'user.location.city'}</div>
                     <div>{'user.location.country'}</div>

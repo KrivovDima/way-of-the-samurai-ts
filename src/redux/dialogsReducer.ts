@@ -1,5 +1,3 @@
-import {actionsType} from "./profileReducer";
-
 export type dialogDataType = {
   id: number
   name: string
@@ -13,6 +11,8 @@ export type dialogsPageType = {
   messagesData: Array<messageDataType>
   newMessageText: string
 }
+type ActionsType = ReturnType<typeof addNewMessageAC>
+  | ReturnType<typeof sendNewMessageAC>
 
 const ADD_NEW_MESSAGE = 'ADD_NEW_MESSAGE';
 const SEND_NEW_MESSAGE = 'SEND_NEW_MESSAGE';
@@ -33,7 +33,7 @@ const initialState = {
   newMessageText: '',
 }
 
-const dialogsReducer = (state: dialogsPageType = initialState, action: actionsType): dialogsPageType => {
+const dialogsReducer = (state: dialogsPageType = initialState, action: ActionsType): dialogsPageType => {
   switch (action.type) {
     case ADD_NEW_MESSAGE: {
       return {

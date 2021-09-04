@@ -1,5 +1,3 @@
-import {actionsType} from "./profileReducer";
-
 const CHANGE_TO_FOLLOW = 'CHANGE-TO-FOLLOW';
 const CHANGE_TO_UNFOLLOW = 'CHANGE-TO-UNFOLLOW';
 const SET_USERS = 'SET-USERS';
@@ -22,6 +20,12 @@ export type UsersPageStateType = {
   currentPage: number
   isFetch: boolean
 }
+type ActionsType = ReturnType<typeof changeToFollow>
+  | ReturnType<typeof changeToUnfollow>
+  | ReturnType<typeof setUsers>
+  | ReturnType<typeof setTotalCount>
+  | ReturnType<typeof setCurrentPage>
+  | ReturnType<typeof changeFetchStatus>
 
 const initialState: UsersPageStateType = {
   users: [],
@@ -31,7 +35,7 @@ const initialState: UsersPageStateType = {
   isFetch: false,
 }
 
-export const usersReducer = (state: UsersPageStateType = initialState, action: actionsType): UsersPageStateType => {
+export const usersReducer = (state: UsersPageStateType = initialState, action: ActionsType): UsersPageStateType => {
   switch (action.type) {
     case CHANGE_TO_FOLLOW: {
       return {

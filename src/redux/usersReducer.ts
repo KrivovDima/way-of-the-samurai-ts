@@ -75,42 +75,42 @@ export const usersReducer = (state: UsersPageStateType = initialState, action: a
   }
 }
 
-export const changeToFollowAC = (userID: number) => {
+export const changeToFollow = (userID: number) => {
   return {
     type: CHANGE_TO_FOLLOW,
     userID
   } as const
 }
 
-export const changeToUnfollowAC = (userID: number) => {
+export const changeToUnfollow = (userID: number) => {
   return {
     type: CHANGE_TO_UNFOLLOW,
     userID
   } as const
 }
 
-export const setUsersAC = (users: Array<userType>) => {
+export const setUsers = (users: Array<userType>) => {
   return {
     type: SET_USERS,
     users,
   } as const
 }
 
-export const setTotalCountAC = (totalCount: number) => {
+export const setTotalCount = (totalCount: number) => {
   return {
     type: SET_TOTAL_COUNT,
     totalCount,
   } as const
 }
 
-export const setCurrentPageAC = (currentPage: number) => {
+export const setCurrentPage = (currentPage: number) => {
   return {
     type: SET_CURRENT_PAGE,
     currentPage,
   } as const
 }
 
-export const changeFetchStatusAC = (value: boolean) => {
+export const changeFetchStatus = (value: boolean) => {
   return {
     type: CHANGE_FETCH_STATUS,
     value,

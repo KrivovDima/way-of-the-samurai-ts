@@ -1,12 +1,12 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-  changeFetchStatusAC,
-  changeToFollowAC,
-  changeToUnfollowAC,
-  setCurrentPageAC,
-  setTotalCountAC,
-  setUsersAC,
+  changeFetchStatus,
+  changeToFollow,
+  changeToUnfollow,
+  setCurrentPage,
+  setTotalCount,
+  setUsers,
   userType
 } from "../../redux/usersReducer";
 import {Dispatch} from "redux";
@@ -69,29 +69,36 @@ const mapStateToProps = (state: StateType) => {
   }
 }
 
-const mapDispatchToProps = (dispatch: Dispatch) => {
-  return {
-    changeToFollow: (userID: number) => {
-      dispatch(changeToFollowAC(userID))
-    },
-    changeToUnfollow: (userID: number) => {
-      dispatch(changeToUnfollowAC(userID))
-    },
-    setUsers: (users: Array<userType>) => {
-      dispatch(setUsersAC(users))
-    },
-    setTotalCount: (totalCount: number) => {
-      dispatch(setTotalCountAC(totalCount))
-    },
-    setCurrentPage: (currentPage: number) => {
-      dispatch(setCurrentPageAC(currentPage))
-    },
-    changeFetchStatus: (value: boolean) => {
-      dispatch(changeFetchStatusAC(value))
-    }
-  }
-}
+// const mapDispatchToProps = (dispatch: Dispatch) => {
+//   return {
+//     changeToFollow: (userID: number) => {
+//       dispatch(changeToFollowAC(userID))
+//     },
+//     changeToUnfollow: (userID: number) => {
+//       dispatch(changeToUnfollowAC(userID))
+//     },
+//     setUsers: (users: Array<userType>) => {
+//       dispatch(setUsersAC(users))
+//     },
+//     setTotalCount: (totalCount: number) => {
+//       dispatch(setTotalCountAC(totalCount))
+//     },
+//     setCurrentPage: (currentPage: number) => {
+//       dispatch(setCurrentPageAC(currentPage))
+//     },
+//     changeFetchStatus: (value: boolean) => {
+//       dispatch(changeFetchStatusAC(value))
+//     }
+//   }
+// }
 
 
-export default connect(mapStateToProps, mapDispatchToProps)(UsersContainer);
+export default connect(mapStateToProps, {
+  changeToFollow,
+  changeToUnfollow,
+  setUsers,
+  setTotalCount,
+  setCurrentPage,
+  changeFetchStatus
+})(UsersContainer);
 

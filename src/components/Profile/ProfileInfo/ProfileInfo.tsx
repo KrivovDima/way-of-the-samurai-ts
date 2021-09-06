@@ -14,7 +14,7 @@ function ProfileInfo(props: ProfileInfoPropsType) {
   return (
     <div>
       <img src={props.userProfile.photos.large} alt="avatar"/>
-      Information
+      <div>Information:</div>
       <ul>
         <li>{props.userProfile.contacts.vk}</li>
         <li>{props.userProfile.contacts.github}</li>

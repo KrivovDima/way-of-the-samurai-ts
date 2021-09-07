@@ -31,7 +31,9 @@ type UsersContainerPropsType = {
 class UsersContainer extends React.Component<UsersContainerPropsType> {
   componentDidMount() {
     this.props.changeFetchStatus(true)
-    axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.countUsers}`).then(response => {
+    axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.countUsers}`, {
+      withCredentials: true,
+    }).then(response => {
       this.props.setUsers(response.data.items)
       this.props.setTotalCount(response.data.totalCount)
       this.props.changeFetchStatus(false)
@@ -41,7 +43,9 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
   onClickPage = (pageNumber: number) => {
     this.props.setCurrentPage(pageNumber)
     this.props.changeFetchStatus(true)
-    axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.countUsers}&page=${pageNumber}`).then(response => {
+    axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.countUsers}&page=${pageNumber}`, {
+      withCredentials: true,
+    }).then(response => {
       this.props.setUsers(response.data.items)
       this.props.changeFetchStatus(false)
     })

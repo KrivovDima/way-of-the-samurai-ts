@@ -13,6 +13,7 @@ import {Dispatch} from "redux";
 import {StateType} from "../../redux/redux-store";
 import axios from "axios";
 import Users from "./Users";
+import {usersAPI} from "../../api/api";
 
 type UsersContainerPropsType = {
   users: Array<userType>
@@ -31,24 +32,24 @@ type UsersContainerPropsType = {
 class UsersContainer extends React.Component<UsersContainerPropsType> {
   componentDidMount() {
     this.props.changeFetchStatus(true)
-    axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.countUsers}`, {
-      withCredentials: true,
-    }).then(response => {
-      this.props.setUsers(response.data.items)
-      this.props.setTotalCount(response.data.totalCount)
-      this.props.changeFetchStatus(false)
-    })
+
+    usersAPI.getUsers(this.props.countUsers)
+      .then(response => {
+        this.props.setUsers(response.items)
+        this.props.setTotalCount(response.totalCount)
+        this.props.changeFetchStatus(false)
+      })
   }
 
   onClickPage = (pageNumber: number) => {
     this.props.setCurrentPage(pageNumber)
     this.props.changeFetchStatus(true)
-    axios.get(`https://social-network.samuraijs.com/api/1.0/users?count=${this.props.countUsers}&page=${pageNumber}`, {
-      withCredentials: true,
-    }).then(response => {
-      this.props.setUsers(response.data.items)
-      this.props.changeFetchStatus(false)
-    })
+
+    usersAPI.getUsers(this.props.countUsers, pageNumber)
+      .then(response => {
+        this.props.setUsers(response.items)
+        this.props.changeFetchStatus(false)
+      })
   }
 
   render() {

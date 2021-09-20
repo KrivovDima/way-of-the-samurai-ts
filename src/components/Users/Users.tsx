@@ -4,7 +4,7 @@ import defaultUserPhoto from "../../assets/default-user-photo.png";
 import {userType} from "../../redux/usersReducer";
 import Preloader from "../Preloader/Preloader";
 import {NavLink} from "react-router-dom";
-import axios from "axios";
+import {followAPI} from "../../api/api";
 
 export type UsersPropsType = {
   users: Array<userType>
@@ -70,26 +70,20 @@ function Users(props: UsersPropsType) {
                   <div className={styles.userStatus}>{user.status}</div>
                   <button onClick={() => {
                     if (user.followed) {
-                      axios.delete(`https://social-network.samuraijs.com/api/1.0//follow/${user.id}`,
-                        {
-                          withCredentials: true,
-                          headers: {"API-KEY": "39fadec0-97c5-4e9f-81f6-b1a36d1cf411"}
-                        }).then(response => {
-                        if (response.data.resultCode === 0) {
-                          props.changeToUnfollow(user.id)
-                        }
-                      })
+                      followAPI.setUnfollow(user.id)
+                        .then(response => {
+                          if (response.data.resultCode === 0) {
+                            props.changeToUnfollow(user.id)
+                          }
+                        })
 
                     } else {
-                      axios.post(`https://social-network.samuraijs.com/api/1.0//follow/${user.id}`, {},
-                        {
-                          withCredentials: true,
-                          headers: {"API-KEY": "39fadec0-97c5-4e9f-81f6-b1a36d1cf411"}
-                        }).then(response => {
-                        if (response.data.resultCode === 0) {
-                          props.changeToFollow(user.id)
-                        }
-                      })
+                      followAPI.setFollow(user.id)
+                        .then(response => {
+                          if (response.data.resultCode === 0) {
+                            props.changeToFollow(user.id)
+                          }
+                        })
 
                     }
                   }}

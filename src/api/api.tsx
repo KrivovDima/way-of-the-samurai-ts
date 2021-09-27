@@ -11,6 +11,7 @@ export const usersAPI = {
     return instance.get(`users?count=${countUsers}&page=${pageNumber}`)
       .then(res => res.data)
   },
+
 };
 
 export const followAPI = {

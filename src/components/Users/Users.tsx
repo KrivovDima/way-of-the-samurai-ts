@@ -15,6 +15,8 @@ export type UsersPropsType = {
   changeToUnfollow: (userID: number) => void
   onClickPage: (page: number) => void
   preloader: boolean
+  subscribeProgressUserId: Array<number>
+  toggleSubscribeProgress: (isFetchSubscribe: boolean, userId: number) => void
 }
 
 function Users(props: UsersPropsType) {
@@ -68,26 +70,32 @@ function Users(props: UsersPropsType) {
                 </div>
                 <div className={styles.userInfo}>
                   <div className={styles.userStatus}>{user.status}</div>
-                  <button onClick={() => {
-                    if (user.followed) {
-                      followAPI.setUnfollow(user.id)
-                        .then(response => {
-                          if (response.data.resultCode === 0) {
-                            props.changeToUnfollow(user.id)
-                          }
-                        })
+                  <button
+                    disabled={props.subscribeProgressUserId.some(element => element === user.id)}
+                    onClick={() => {
+                      if (user.followed) {
+                        props.toggleSubscribeProgress(true, user.id)
+                        followAPI.setUnfollow(user.id)
+                          .then(response => {
+                            if (response.data.resultCode === 0) {
+                              props.changeToUnfollow(user.id)
+                            }
+                            props.toggleSubscribeProgress(false, user.id)
+                          })
 
-                    } else {
-                      followAPI.setFollow(user.id)
-                        .then(response => {
-                          if (response.data.resultCode === 0) {
-                            props.changeToFollow(user.id)
-                          }
-                        })
+                      } else {
+                        props.toggleSubscribeProgress(true, user.id)
+                        followAPI.setFollow(user.id)
+                          .then(response => {
+                            if (response.data.resultCode === 0) {
+                              props.changeToFollow(user.id)
+                            }
+                            props.toggleSubscribeProgress(false, user.id)
+                          })
 
-                    }
-                  }}
-                          className={`${styles.btnUser} ${user.followed ? styles.unfollow : styles.follow}`}>
+                      }
+                    }}
+                    className={`${styles.btnUser} ${user.followed ? styles.unfollow : styles.follow}`}>
                     {user.followed ? 'unfollow' : 'follow'}
                   </button>
                 </div>
@@ -101,3 +109,4 @@ function Users(props: UsersPropsType) {
 }
 
 export default Users;
+

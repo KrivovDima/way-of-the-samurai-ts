@@ -4,6 +4,7 @@ const SET_USERS = 'SET-USERS';
 const SET_TOTAL_COUNT = 'SET-TOTAL-COUNT';
 const SET_CURRENT_PAGE = 'SET-CURRENT-PAGE';
 const CHANGE_FETCH_STATUS = 'CHANGE-FETCH-STATUS';
+const CHANGE_SUBSCRIBE_PROGRESS = 'CHANGE-SUBSCRIBE-PROGRESS';
 
 export type userType = {
   id: number
@@ -19,13 +20,16 @@ export type UsersPageStateType = {
   totalCount: number
   currentPage: number
   isFetch: boolean
+  subscribeProgressUserId: Array<number>
 }
-type ActionsType = ReturnType<typeof changeToFollow>
-  | ReturnType<typeof changeToUnfollow>
-  | ReturnType<typeof setUsers>
-  | ReturnType<typeof setTotalCount>
-  | ReturnType<typeof setCurrentPage>
-  | ReturnType<typeof changeFetchStatus>
+type ActionsType =
+  | ReturnType<typeof changeToFollowAC>
+  | ReturnType<typeof changeToUnfollowAC>
+  | ReturnType<typeof setUsersAC>
+  | ReturnType<typeof setTotalCountAC>
+  | ReturnType<typeof setCurrentPageAC>
+  | ReturnType<typeof changeFetchStatusAC>
+  | ReturnType<typeof toggleSubscribeProgressAC>
 
 const initialState: UsersPageStateType = {
   users: [],
@@ -33,6 +37,7 @@ const initialState: UsersPageStateType = {
   currentPage: 1,
   totalCount: 0,
   isFetch: false,
+  subscribeProgressUserId: [],
 }
 
 export const usersReducer = (state: UsersPageStateType = initialState, action: ActionsType): UsersPageStateType => {
@@ -73,50 +78,63 @@ export const usersReducer = (state: UsersPageStateType = initialState, action: A
         isFetch: action.value,
       }
     }
+    case CHANGE_SUBSCRIBE_PROGRESS: {
+      return {
+        ...state,
+        subscribeProgressUserId: action.isFetchSubscribe
+          ?
+          [...state.subscribeProgressUserId, action.userId]
+          :
+          state.subscribeProgressUserId.filter(uId => uId !== action.userId)
+      }
+    }
     default: {
       return state
     }
   }
 }
 
-export const changeToFollow = (userID: number) => {
+export const changeToFollowAC = (userID: number) => {
   return {
     type: CHANGE_TO_FOLLOW,
     userID
   } as const
 }
-
-export const changeToUnfollow = (userID: number) => {
+export const changeToUnfollowAC = (userID: number) => {
   return {
     type: CHANGE_TO_UNFOLLOW,
     userID
   } as const
 }
-
-export const setUsers = (users: Array<userType>) => {
+export const setUsersAC = (users: Array<userType>) => {
   return {
     type: SET_USERS,
     users,
   } as const
 }
-
-export const setTotalCount = (totalCount: number) => {
+export const setTotalCountAC = (totalCount: number) => {
   return {
     type: SET_TOTAL_COUNT,
     totalCount,
   } as const
 }
-
-export const setCurrentPage = (currentPage: number) => {
+export const setCurrentPageAC = (currentPage: number) => {
   return {
     type: SET_CURRENT_PAGE,
     currentPage,
   } as const
 }
-
-export const changeFetchStatus = (value: boolean) => {
+export const changeFetchStatusAC = (value: boolean) => {
   return {
     type: CHANGE_FETCH_STATUS,
     value,
   } as const
 }
+export const toggleSubscribeProgressAC = (isFetchSubscribe: boolean, userId: number) => {
+  return {
+    type: CHANGE_SUBSCRIBE_PROGRESS,
+    isFetchSubscribe,
+    userId
+  } as const
+}
+

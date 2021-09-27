@@ -3,7 +3,6 @@ import Profile from "./Profile";
 import {StateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 import {addUserProfile, userProfileType} from "../../redux/profileReducer";
-import axios from "axios";
 import {RouteComponentProps, withRouter} from "react-router-dom";
 import {profileAPI} from "../../api/api";
 

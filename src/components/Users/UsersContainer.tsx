@@ -1,17 +1,16 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-  changeFetchStatus,
-  changeToFollow,
-  changeToUnfollow,
-  setCurrentPage,
-  setTotalCount,
-  setUsers,
+  changeFetchStatusAC,
+  changeToFollowAC,
+  changeToUnfollowAC,
+  setCurrentPageAC,
+  setTotalCountAC,
+  setUsersAC,
+  toggleSubscribeProgressAC,
   userType
 } from "../../redux/usersReducer";
-import {Dispatch} from "redux";
 import {StateType} from "../../redux/redux-store";
-import axios from "axios";
 import Users from "./Users";
 import {usersAPI} from "../../api/api";
 
@@ -27,6 +26,8 @@ type UsersContainerPropsType = {
   setTotalCount: (totalCount: number) => void
   setCurrentPage: (currentPage: number) => void
   changeFetchStatus: (value: boolean) => void
+  subscribeProgressUserId: Array<number>
+  toggleSubscribeProgress: (isFetchSubscribe: boolean, userId: number) => void
 }
 
 class UsersContainer extends React.Component<UsersContainerPropsType> {
@@ -60,7 +61,9 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
                   changeToUnfollow={this.props.changeToUnfollow}
                   currentPage={this.props.currentPage}
                   onClickPage={this.onClickPage}
-                  preloader={this.props.isFetch}/>
+                  preloader={this.props.isFetch}
+                  subscribeProgressUserId={this.props.subscribeProgressUserId}
+                  toggleSubscribeProgress={this.props.toggleSubscribeProgress}/>
   }
 }
 
@@ -71,8 +74,10 @@ const mapStateToProps = (state: StateType) => {
     currentPage: state.usersPage.currentPage,
     totalCount: state.usersPage.totalCount,
     isFetch: state.usersPage.isFetch,
+    subscribeProgressUserId: state.usersPage.subscribeProgressUserId,
   }
 }
+
 
 // const mapDispatchToProps = (dispatch: Dispatch) => {
 //   return {
@@ -97,13 +102,13 @@ const mapStateToProps = (state: StateType) => {
 //   }
 // }
 
-
 export default connect(mapStateToProps, {
-  changeToFollow,
-  changeToUnfollow,
-  setUsers,
-  setTotalCount,
-  setCurrentPage,
-  changeFetchStatus
+  changeToFollow: changeToFollowAC,
+  changeToUnfollow: changeToUnfollowAC,
+  setUsers: setUsersAC,
+  setTotalCount: setTotalCountAC,
+  setCurrentPage: setCurrentPageAC,
+  changeFetchStatus: changeFetchStatusAC,
+  toggleSubscribeProgress: toggleSubscribeProgressAC,
 })(UsersContainer);
 

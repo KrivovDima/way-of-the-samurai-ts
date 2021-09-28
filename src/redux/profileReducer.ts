@@ -1,3 +1,6 @@
+import {Dispatch} from "redux";
+import {profileAPI} from "../api/api";
+
 type ActionsType = ReturnType<typeof addPostActionCreator>
   | ReturnType<typeof updateTextActionCreator>
   | ReturnType<typeof addUserProfile>
@@ -80,12 +83,18 @@ export const updateTextActionCreator = (text: string) => {
     text: text
   } as const
 }
-
 export const addUserProfile = (userProfile: userProfileType) => {
   return {
     type: ADD_USER_PROFILE,
     userProfile
   } as const
+}
+
+export const getUserForProfile = (userId: string) => (dispatch: Dispatch) => {
+  profileAPI.getUser(userId)
+    .then(response => {
+      dispatch(addUserProfile(response.data));
+    })
 }
 
 export default profileReducer;

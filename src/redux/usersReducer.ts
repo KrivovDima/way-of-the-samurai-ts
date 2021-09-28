@@ -1,3 +1,6 @@
+import {Dispatch} from "redux";
+import {followAPI, usersAPI} from "../api/api";
+
 const CHANGE_TO_FOLLOW = 'CHANGE-TO-FOLLOW';
 const CHANGE_TO_UNFOLLOW = 'CHANGE-TO-UNFOLLOW';
 const SET_USERS = 'SET-USERS';
@@ -23,13 +26,13 @@ export type UsersPageStateType = {
   subscribeProgressUserId: Array<number>
 }
 type ActionsType =
-  | ReturnType<typeof changeToFollowAC>
-  | ReturnType<typeof changeToUnfollowAC>
-  | ReturnType<typeof setUsersAC>
-  | ReturnType<typeof setTotalCountAC>
-  | ReturnType<typeof setCurrentPageAC>
-  | ReturnType<typeof changeFetchStatusAC>
-  | ReturnType<typeof toggleSubscribeProgressAC>
+  | ReturnType<typeof changeToFollow>
+  | ReturnType<typeof changeToUnfollow>
+  | ReturnType<typeof setUsers>
+  | ReturnType<typeof setTotalCount>
+  | ReturnType<typeof setCurrentPage>
+  | ReturnType<typeof changeFetchStatus>
+  | ReturnType<typeof toggleSubscribeProgress>
 
 const initialState: UsersPageStateType = {
   users: [],
@@ -94,47 +97,79 @@ export const usersReducer = (state: UsersPageStateType = initialState, action: A
   }
 }
 
-export const changeToFollowAC = (userID: number) => {
+export const changeToFollow = (userID: number) => {
   return {
     type: CHANGE_TO_FOLLOW,
     userID
   } as const
 }
-export const changeToUnfollowAC = (userID: number) => {
+export const changeToUnfollow = (userID: number) => {
   return {
     type: CHANGE_TO_UNFOLLOW,
     userID
   } as const
 }
-export const setUsersAC = (users: Array<userType>) => {
+export const setUsers = (users: Array<userType>) => {
   return {
     type: SET_USERS,
     users,
   } as const
 }
-export const setTotalCountAC = (totalCount: number) => {
+export const setTotalCount = (totalCount: number) => {
   return {
     type: SET_TOTAL_COUNT,
     totalCount,
   } as const
 }
-export const setCurrentPageAC = (currentPage: number) => {
+export const setCurrentPage = (currentPage: number) => {
   return {
     type: SET_CURRENT_PAGE,
     currentPage,
   } as const
 }
-export const changeFetchStatusAC = (value: boolean) => {
+export const changeFetchStatus = (value: boolean) => {
   return {
     type: CHANGE_FETCH_STATUS,
     value,
   } as const
 }
-export const toggleSubscribeProgressAC = (isFetchSubscribe: boolean, userId: number) => {
+export const toggleSubscribeProgress = (isFetchSubscribe: boolean, userId: number) => {
   return {
     type: CHANGE_SUBSCRIBE_PROGRESS,
     isFetchSubscribe,
     userId
   } as const
+}
+
+export const getUsers = (countUsers: number, pageNumber: number) => (dispatch: Dispatch) => {
+  dispatch(changeFetchStatus(true));
+  dispatch(setCurrentPage(pageNumber));
+
+  usersAPI.getUsers(countUsers, pageNumber)
+    .then(response => {
+      dispatch(setTotalCount(response.totalCount));
+      dispatch(setUsers(response.items));
+      dispatch(changeFetchStatus(false));
+    })
+}
+export const fetchUnfollow = (userId: number) => (dispatch: Dispatch) => {
+  dispatch(toggleSubscribeProgress(true, userId));
+  followAPI.setUnfollow(userId)
+    .then(response => {
+      if (response.data.resultCode === 0) {
+        dispatch(changeToUnfollow(userId));
+      }
+      dispatch(toggleSubscribeProgress(false, userId));
+    })
+}
+export const fetchFollow = (userId: number) => (dispatch: Dispatch) => {
+  dispatch(toggleSubscribeProgress(true, userId));
+  followAPI.setFollow(userId)
+    .then(response => {
+      if (response.data.resultCode === 0) {
+        dispatch(changeToFollow(userId));
+      }
+      dispatch(toggleSubscribeProgress(false, userId));
+    })
 }
 

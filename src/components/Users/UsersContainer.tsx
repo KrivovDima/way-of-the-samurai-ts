@@ -1,13 +1,13 @@
 import React from "react";
 import {connect} from "react-redux";
 import {
-  changeFetchStatusAC,
-  changeToFollowAC,
-  changeToUnfollowAC,
-  setCurrentPageAC,
-  setTotalCountAC,
-  setUsersAC,
-  toggleSubscribeProgressAC,
+  changeFetchStatus,
+  changeToFollow,
+  changeToUnfollow, fetchFollow, fetchUnfollow, getUsers,
+  setCurrentPage,
+  setTotalCount,
+  setUsers,
+  toggleSubscribeProgress,
   userType
 } from "../../redux/usersReducer";
 import {StateType} from "../../redux/redux-store";
@@ -28,29 +28,18 @@ type UsersContainerPropsType = {
   changeFetchStatus: (value: boolean) => void
   subscribeProgressUserId: Array<number>
   toggleSubscribeProgress: (isFetchSubscribe: boolean, userId: number) => void
+  getUsers: (countUsers: number, pageNumber: number) => void
+  fetchFollow: (userId: number) => void
+  fetchUnfollow: (userId: number) => void
 }
 
 class UsersContainer extends React.Component<UsersContainerPropsType> {
   componentDidMount() {
-    this.props.changeFetchStatus(true)
-
-    usersAPI.getUsers(this.props.countUsers)
-      .then(response => {
-        this.props.setUsers(response.items)
-        this.props.setTotalCount(response.totalCount)
-        this.props.changeFetchStatus(false)
-      })
+    this.props.getUsers(this.props.countUsers, this.props.currentPage);
   }
 
   onClickPage = (pageNumber: number) => {
-    this.props.setCurrentPage(pageNumber)
-    this.props.changeFetchStatus(true)
-
-    usersAPI.getUsers(this.props.countUsers, pageNumber)
-      .then(response => {
-        this.props.setUsers(response.items)
-        this.props.changeFetchStatus(false)
-      })
+    this.props.getUsers(this.props.countUsers, pageNumber);
   }
 
   render() {
@@ -63,7 +52,9 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
                   onClickPage={this.onClickPage}
                   preloader={this.props.isFetch}
                   subscribeProgressUserId={this.props.subscribeProgressUserId}
-                  toggleSubscribeProgress={this.props.toggleSubscribeProgress}/>
+                  toggleSubscribeProgress={this.props.toggleSubscribeProgress}
+                  fetchFollow={this.props.fetchFollow}
+                  fetchUnfollow={this.props.fetchUnfollow}/>
   }
 }
 
@@ -103,12 +94,15 @@ const mapStateToProps = (state: StateType) => {
 // }
 
 export default connect(mapStateToProps, {
-  changeToFollow: changeToFollowAC,
-  changeToUnfollow: changeToUnfollowAC,
-  setUsers: setUsersAC,
-  setTotalCount: setTotalCountAC,
-  setCurrentPage: setCurrentPageAC,
-  changeFetchStatus: changeFetchStatusAC,
-  toggleSubscribeProgress: toggleSubscribeProgressAC,
+  changeToFollow,
+  changeToUnfollow,
+  setUsers,
+  setTotalCount,
+  setCurrentPage,
+  changeFetchStatus,
+  toggleSubscribeProgress,
+  getUsers,
+  fetchFollow,
+  fetchUnfollow,
 })(UsersContainer);
 

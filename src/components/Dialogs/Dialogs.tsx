@@ -3,11 +3,13 @@ import styles from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {dialogsPageType} from "../../redux/dialogsReducer";
+import {Redirect} from "react-router-dom";
 
 type DialogsPropsType = {
   data: dialogsPageType
   addNewMessage: (text: string) => void
   sendNewMessage: () => void
+  isAuth: boolean
 }
 
 function Dialogs(props: DialogsPropsType) {
@@ -27,6 +29,7 @@ function Dialogs(props: DialogsPropsType) {
     props.addNewMessage(event.currentTarget.value);
   }
 
+  if (!props.isAuth) return <Redirect to={'/login'}/>
 
   return (
     <div className={styles.dialogs}>

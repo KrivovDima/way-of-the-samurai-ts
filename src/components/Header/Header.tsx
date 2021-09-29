@@ -1,4 +1,5 @@
 import React from 'react';
+import {NavLink} from 'react-router-dom';
 import logo from '../../assets/logo.png';
 import styles from './Header.module.css';
 
@@ -14,7 +15,7 @@ function Header(props: HeaderPropsType) {
         <img src={logo} alt="logo" className={styles.logo__img}/>
       </a>
       <div className={styles.headerLogin}>
-        {props.isAuth ? props.login : <a className={styles.headerLoginLink} href="#">Login</a>}
+        {props.isAuth ? props.login : <NavLink to={'/login'} className={styles.headerLoginLink}>Login</NavLink>}
       </div>
     </header>
   )

@@ -29,7 +29,6 @@ function Dialogs(props: DialogsPropsType) {
     props.addNewMessage(event.currentTarget.value);
   }
 
-  if (!props.isAuth) return <Redirect to={'/login'}/>
 
   return (
     <div className={styles.dialogs}>
@@ -54,3 +53,5 @@ function Dialogs(props: DialogsPropsType) {
 }
 
 export default Dialogs
+
+

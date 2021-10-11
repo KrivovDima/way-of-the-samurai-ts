@@ -12,7 +12,7 @@ function ProfileInfo(props: ProfileInfoPropsType) {
     return <Preloader/>
   }
   return (
-    <div>
+    <div className={styles.wrapper}>
       <img src={props.userProfile.photos.large} alt="avatar"/>
       <div>Information:</div>
       <ul>

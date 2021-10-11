@@ -3,7 +3,6 @@ import styles from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {dialogsPageType} from "../../redux/dialogsReducer";
-import {Redirect} from "react-router-dom";
 
 type DialogsPropsType = {
   data: dialogsPageType

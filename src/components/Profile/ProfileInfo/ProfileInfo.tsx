@@ -2,9 +2,12 @@ import React from "react";
 import styles from "./ProfileInfo.module.css";
 import {userProfileType} from "../../../redux/profileReducer";
 import Preloader from "../../Preloader/Preloader";
+import ProfileStatus from "../ProfileStatus/ProfileStatus";
 
 type ProfileInfoPropsType = {
   userProfile: userProfileType
+  status: string
+  updateStatus: (status: string) => void
 }
 
 function ProfileInfo(props: ProfileInfoPropsType) {
@@ -14,6 +17,7 @@ function ProfileInfo(props: ProfileInfoPropsType) {
   return (
     <div className={styles.wrapper}>
       <img src={props.userProfile.photos.large} alt="avatar"/>
+      <ProfileStatus status={props.status} updateStatus={props.updateStatus}/>
       <div>Information:</div>
       <ul>
         <li>{props.userProfile.contacts.vk}</li>

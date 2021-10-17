@@ -9,12 +9,9 @@ export type messageDataType = {
 export type dialogsPageType = {
   dialogsData: Array<dialogDataType>
   messagesData: Array<messageDataType>
-  newMessageText: string
 }
-type ActionsType = ReturnType<typeof addNewMessageAC>
-  | ReturnType<typeof sendNewMessageAC>
+type ActionsType = ReturnType<typeof sendNewMessageAC>
 
-const ADD_NEW_MESSAGE = 'ADD_NEW_MESSAGE';
 const SEND_NEW_MESSAGE = 'SEND_NEW_MESSAGE';
 
 const initialState = {
@@ -30,22 +27,14 @@ const initialState = {
     {id: 2, message: 'Lorem ipsum dolor sit amet'},
     {id: 3, message: 'Lorem ipsum dolor sit amet, consectetur'},
   ],
-  newMessageText: '',
 }
 
 const dialogsReducer = (state: dialogsPageType = initialState, action: ActionsType): dialogsPageType => {
   switch (action.type) {
-    case ADD_NEW_MESSAGE: {
-      return {
-        ...state,
-        newMessageText: action.text
-      }
-    }
     case SEND_NEW_MESSAGE: {
       return {
         ...state,
-        messagesData: [...state.messagesData, {id: 3, message: state.newMessageText}],
-        newMessageText: '',
+        messagesData: [...state.messagesData, {id: 3, message: action.messageText}],
       }
     }
     default: {
@@ -54,15 +43,10 @@ const dialogsReducer = (state: dialogsPageType = initialState, action: ActionsTy
   }
 }
 
-export const addNewMessageAC = (text: string) => {
+export const sendNewMessageAC = (messageText: string) => {
   return {
-    type: ADD_NEW_MESSAGE,
-    text
-  } as const
-}
-export const sendNewMessageAC = () => {
-  return {
-    type: SEND_NEW_MESSAGE
+    type: SEND_NEW_MESSAGE,
+    messageText
   } as const
 }
 

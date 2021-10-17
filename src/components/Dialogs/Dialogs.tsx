@@ -1,14 +1,15 @@
-import React, {ChangeEvent, LegacyRef} from "react";
+import React from "react";
 import styles from './Dialogs.module.css';
 import DialogItem from "./DialogItem/DialogItem";
 import Message from "./Message/Message";
 import {dialogsPageType} from "../../redux/dialogsReducer";
+import {useFormik} from "formik";
+import {validateTextarea as validate} from "../../utils/validateFunctions";
 
 type DialogsPropsType = {
   data: dialogsPageType
   addNewMessage: (text: string) => void
-  sendNewMessage: () => void
-  isAuth: boolean
+  sendNewMessage: (messageText: string) => void
 }
 
 function Dialogs(props: DialogsPropsType) {
@@ -24,9 +25,16 @@ function Dialogs(props: DialogsPropsType) {
     )
   })
 
-  const onChangeMessageText = (event: ChangeEvent<HTMLTextAreaElement>) => {
-    props.addNewMessage(event.currentTarget.value);
-  }
+  const formik = useFormik({
+    initialValues: {
+      text: '',
+    },
+    validate,
+    onSubmit: values => {
+      props.sendNewMessage(values.text);
+      formik.resetForm();
+    },
+  });
 
 
   return (
@@ -36,16 +44,18 @@ function Dialogs(props: DialogsPropsType) {
       </div>
       <div className={styles.messages}>
         {messageDataIteration}
-        <textarea value={props.data.newMessageText}
-                  className={styles.textMessage}
-                  onChange={onChangeMessageText}>
-
-        </textarea>
-        <button onClick={() => {
-          props.sendNewMessage()
-        }}>
-          Send message
-        </button>
+        <form onSubmit={formik.handleSubmit}>
+          <textarea id="message"
+                    {...formik.getFieldProps('message')}>
+      </textarea>
+          {formik.touched.text && formik.errors.text ?
+            <div style={{color: "tomato"}}>{formik.errors.text}</div> : null}
+          <div>
+            <button>
+              Send message
+            </button>
+          </div>
+        </form>
       </div>
     </div>
   )

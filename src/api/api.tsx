@@ -26,7 +26,13 @@ export const followAPI = {
 export const authAPI = {
   getAuthMe() {
     return instance.get(`auth/me`)
-  }
+  },
+  login(email: string, password: string, rememberMe: boolean) {
+    return instance.post<ResponseType<{ userId: number }>>('auth/login', {email, password, rememberMe})
+  },
+  logout() {
+    return instance.delete<ResponseType>('auth/login')
+  },
 };
 
 export const profileAPI = {
@@ -40,4 +46,11 @@ export const profileAPI = {
     return instance.put('profile/status', {status})
   }
 }
+
+type ResponseType<T = {}> = {
+  resultCode: number
+  messages: []
+  data: T
+}
+
 

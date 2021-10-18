@@ -6,6 +6,7 @@ import styles from './Header.module.css';
 type HeaderPropsType = {
   isAuth: boolean
   login: string | null
+  postLogout: () => void
 }
 
 function Header(props: HeaderPropsType) {
@@ -16,6 +17,7 @@ function Header(props: HeaderPropsType) {
       </a>
       <div className={styles.headerLogin}>
         {props.isAuth ? props.login : <NavLink to={'/login'} className={styles.headerLoginLink}>Login</NavLink>}
+        {props.isAuth && <button onClick={props.postLogout}>Logout</button>}
       </div>
     </header>
   )

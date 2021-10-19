@@ -10,7 +10,7 @@ export type dialogsPageType = {
   dialogsData: Array<dialogDataType>
   messagesData: Array<messageDataType>
 }
-type ActionsType = ReturnType<typeof sendNewMessageAC>
+export type DialogsActionsType = ReturnType<typeof sendNewMessageAC>
 
 const SEND_NEW_MESSAGE = 'SEND_NEW_MESSAGE';
 
@@ -29,7 +29,7 @@ const initialState = {
   ],
 }
 
-const dialogsReducer = (state: dialogsPageType = initialState, action: ActionsType): dialogsPageType => {
+const dialogsReducer = (state: dialogsPageType = initialState, action: DialogsActionsType): dialogsPageType => {
   switch (action.type) {
     case SEND_NEW_MESSAGE: {
       return {

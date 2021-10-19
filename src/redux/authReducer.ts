@@ -1,7 +1,8 @@
 import {Dispatch} from "redux";
 import {authAPI} from "../api/api";
+import {ThunkType} from "./redux-store";
 
-type ActionsType = ReturnType<typeof setAuthData>
+export type AuthActionsType = ReturnType<typeof setAuthData>
   | ReturnType<typeof logout>
 export type AuthStateType = {
   userId: number | null
@@ -17,7 +18,7 @@ const initialState: AuthStateType = {
   isAuth: false,
 }
 
-export const authReducer = (state: AuthStateType = initialState, action: ActionsType): AuthStateType => {
+export const authReducer = (state: AuthStateType = initialState, action: AuthActionsType): AuthStateType => {
   switch (action.type) {
     case "SET-AUTH-DATA": {
       return {
@@ -52,11 +53,10 @@ export const fetchAuthMe = () => (dispatch: Dispatch) => {
       }
     })
 }
-export const postLogin = (email: string, password: string, rememberMe: boolean) => (dispatch: Dispatch) => {
+export const postLogin = (email: string, password: string, rememberMe: boolean): ThunkType => (dispatch) => {
   authAPI.login(email, password, rememberMe)
     .then(res => {
       if (res.data.resultCode === 0) {
-        //@ts-ignore
         dispatch(fetchAuthMe())
       }
     })

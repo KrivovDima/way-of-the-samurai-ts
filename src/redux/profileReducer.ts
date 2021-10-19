@@ -1,7 +1,7 @@
 import {Dispatch} from "redux";
 import {profileAPI} from "../api/api";
 
-type ActionsType = ReturnType<typeof addPostActionCreator>
+export type ProfileActionsType = ReturnType<typeof addPostActionCreator>
   | ReturnType<typeof addUserProfile>
   | ReturnType<typeof setStatus>
 export type userProfileType = {
@@ -46,7 +46,7 @@ const initialState: profilePageType = {
   status: ''
 }
 
-const profileReducer = (state: profilePageType = initialState, action: ActionsType): profilePageType => {
+const profileReducer = (state: profilePageType = initialState, action: ProfileActionsType): profilePageType => {
   switch (action.type) {
     case ADD_POST: {
       return {

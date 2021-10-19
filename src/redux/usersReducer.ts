@@ -25,7 +25,7 @@ export type UsersPageStateType = {
   isFetch: boolean
   subscribeProgressUserId: Array<number>
 }
-type ActionsType =
+export type UsersActionsType =
   | ReturnType<typeof changeToFollow>
   | ReturnType<typeof changeToUnfollow>
   | ReturnType<typeof setUsers>
@@ -43,7 +43,7 @@ const initialState: UsersPageStateType = {
   subscribeProgressUserId: [],
 }
 
-export const usersReducer = (state: UsersPageStateType = initialState, action: ActionsType): UsersPageStateType => {
+export const usersReducer = (state: UsersPageStateType = initialState, action: UsersActionsType): UsersPageStateType => {
   switch (action.type) {
     case CHANGE_TO_FOLLOW: {
       return {

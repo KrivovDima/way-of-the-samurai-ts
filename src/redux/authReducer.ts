@@ -4,11 +4,13 @@ import {ThunkType} from "./redux-store";
 
 export type AuthActionsType = ReturnType<typeof setAuthData>
   | ReturnType<typeof logout>
+  | ReturnType<typeof setErrorMessage>
 export type AuthStateType = {
   userId: number | null
   email: string | null
   login: string | null
   isAuth: boolean
+  errorMessage: string
 }
 
 const initialState: AuthStateType = {
@@ -16,6 +18,7 @@ const initialState: AuthStateType = {
   login: null,
   userId: null,
   isAuth: false,
+  errorMessage: '',
 }
 
 export const authReducer = (state: AuthStateType = initialState, action: AuthActionsType): AuthStateType => {
@@ -30,6 +33,9 @@ export const authReducer = (state: AuthStateType = initialState, action: AuthAct
     case "LOGOUT": {
       return {...state, isAuth: false}
     }
+    case "SET-ERROR-MESSAGE": {
+      return {...state, errorMessage: action.errorMessage}
+    }
     default: {
       return state
     }
@@ -43,6 +49,7 @@ export const setAuthData = (userId: number, email: string, login: string) => {
   } as const
 }
 export const logout = () => ({type: 'LOGOUT'} as const)
+export const setErrorMessage = (errorMessage: string) => ({type: 'SET-ERROR-MESSAGE', errorMessage} as const)
 
 export const fetchAuthMe = () => (dispatch: Dispatch) => {
   authAPI.getAuthMe()
@@ -58,6 +65,10 @@ export const postLogin = (email: string, password: string, rememberMe: boolean):
     .then(res => {
       if (res.data.resultCode === 0) {
         dispatch(fetchAuthMe())
+      } else {
+        res.data.messages.length ?
+          dispatch(setErrorMessage(res.data.messages[0]))
+          : dispatch(setErrorMessage('Some Error'))
       }
     })
 }

@@ -8,6 +8,7 @@ import {Redirect} from "react-router-dom";
 
 type LoginPropsType = {
   isAuth: boolean
+  errorMessage: string
   postLogin: (email: string, password: string, rememberMe: boolean) => void
 }
 
@@ -59,7 +60,7 @@ function Login(props: LoginPropsType) {
           {...formik.getFieldProps('rememberMe')}
         />
       </div>
-
+      {props.errorMessage && <div style={{color: 'tomato'}}>{props.errorMessage}</div>}
       <button type="submit">Submit</button>
     </form>
   )
@@ -68,6 +69,7 @@ function Login(props: LoginPropsType) {
 const mapStateToProps = (state: StateType) => {
   return {
     isAuth: state.auth.isAuth,
+    errorMessage: state.auth.errorMessage,
   }
 }
 

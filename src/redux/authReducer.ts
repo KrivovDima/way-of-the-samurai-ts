@@ -52,11 +52,13 @@ export const logout = () => ({type: 'LOGOUT'} as const)
 export const setErrorMessage = (errorMessage: string) => ({type: 'SET-ERROR-MESSAGE', errorMessage} as const)
 
 export const fetchAuthMe = () => (dispatch: Dispatch) => {
-  authAPI.getAuthMe()
+  debugger
+  return authAPI.getAuthMe()
     .then(response => {
       if (response.data.resultCode === 0) {
         const {id, login, email} = response.data.data;
         dispatch(setAuthData(id, email, login));
+        dispatch(setErrorMessage(''));
       }
     })
 }

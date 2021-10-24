@@ -12,9 +12,7 @@ type HeaderContainerPropsType = {
 }
 
 class HeaderContainer extends React.Component<HeaderContainerPropsType> {
-  componentDidMount() {
-    this.props.fetchAuthMe();
-  }
+  
 
   render() {
     return <Header login={this.props.auth.login} isAuth={this.props.auth.isAuth} postLogout={this.props.postLogout}/>

@@ -3,7 +3,7 @@ import Profile from "./Profile";
 import {StateType} from "../../redux/redux-store";
 import {connect} from "react-redux";
 import {addUserProfile, getStatus, getUserForProfile, updateStatus, userProfileType} from "../../redux/profileReducer";
-import {Redirect, RouteComponentProps, withRouter} from "react-router-dom";
+import {RouteComponentProps, withRouter} from "react-router-dom";
 import {WithAuthRedirect} from "../../hoc/WithAuthRedirect";
 import {compose} from "redux";
 
@@ -14,6 +14,7 @@ type mapStateToPropsType = {
   userProfile: userProfileType
   isAuth: boolean
   status: string
+  authUserId: number | null
 }
 type mapDispatchToPropsType = {
   addUserProfile: (userProfile: userProfileType) => void
@@ -27,7 +28,11 @@ class ProfileContainer extends React.Component<ProfileContainerPropsType> {
   componentDidMount() {
     let userId = this.props.match.params.userId
     if (!userId) {
-      userId = '19004'
+      this.props.authUserId
+        ?
+        userId = String(this.props.authUserId)
+        :
+        this.props.history.push('/login')
     }
     this.props.getUserForProfile(userId);
     this.props.getStatus(userId);
@@ -45,6 +50,7 @@ const mapStateToProps = (state: StateType): mapStateToPropsType => {
     userProfile: state.profilePage.userProfile,
     isAuth: state.auth.isAuth,
     status: state.profilePage.status,
+    authUserId: state.auth.userId
   }
 }
 

@@ -13,6 +13,14 @@ import {
 import {StateType} from "../../redux/redux-store";
 import Users from "./Users";
 import {usersAPI} from "../../api/api";
+import {
+  getCountUsers,
+  getCurrentPage,
+  getIsFetch,
+  getSubscribeProgressUserId,
+  gettingUsers,
+  getTotalCountUsers
+} from "../../redux/usersSelectors";
 
 type UsersContainerPropsType = {
   users: Array<userType>
@@ -58,40 +66,26 @@ class UsersContainer extends React.Component<UsersContainerPropsType> {
   }
 }
 
-const mapStateToProps = (state: StateType) => {
-  return {
-    users: state.usersPage.users,
-    countUsers: state.usersPage.countUsers,
-    currentPage: state.usersPage.currentPage,
-    totalCount: state.usersPage.totalCount,
-    isFetch: state.usersPage.isFetch,
-    subscribeProgressUserId: state.usersPage.subscribeProgressUserId,
-  }
-}
-
-
-// const mapDispatchToProps = (dispatch: Dispatch) => {
+// const mapStateToProps = (state: StateType) => {
 //   return {
-//     changeToFollow: (userID: number) => {
-//       dispatch(changeToFollowAC(userID))
-//     },
-//     changeToUnfollow: (userID: number) => {
-//       dispatch(changeToUnfollowAC(userID))
-//     },
-//     setUsers: (users: Array<userType>) => {
-//       dispatch(setUsersAC(users))
-//     },
-//     setTotalCount: (totalCount: number) => {
-//       dispatch(setTotalCountAC(totalCount))
-//     },
-//     setCurrentPage: (currentPage: number) => {
-//       dispatch(setCurrentPageAC(currentPage))
-//     },
-//     changeFetchStatus: (value: boolean) => {
-//       dispatch(changeFetchStatusAC(value))
-//     }
+//     users: state.usersPage.users,
+//     countUsers: state.usersPage.countUsers,
+//     currentPage: state.usersPage.currentPage,
+//     totalCount: state.usersPage.totalCount,
+//     isFetch: state.usersPage.isFetch,
+//     subscribeProgressUserId: state.usersPage.subscribeProgressUserId,
 //   }
 // }
+const mapStateToProps = (state: StateType) => {
+  return {
+    users: gettingUsers(state),
+    countUsers: getCountUsers(state),
+    currentPage: getCurrentPage(state),
+    totalCount: getTotalCountUsers(state),
+    isFetch: getIsFetch(state),
+    subscribeProgressUserId: getSubscribeProgressUserId(state),
+  }
+}
 
 export default connect(mapStateToProps, {
   changeToFollow,

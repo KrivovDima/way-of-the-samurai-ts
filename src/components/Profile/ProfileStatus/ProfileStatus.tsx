@@ -1,6 +1,5 @@
 import React, {ChangeEvent} from "react";
 import styles from "./ProfileStatus.module.css";
-import {setStatus} from "../../../redux/profileReducer";
 
 type ProfileStatusType = {
   status: string
@@ -27,7 +26,6 @@ class ProfileStatus extends React.Component<ProfileStatusType> {
   }
 
   componentDidUpdate(prevProps: Readonly<ProfileStatusType>, prevState: Readonly<{}>) {
-    console.log('update')
     if (prevProps.status !== this.props.status) {
       this.setState({status: this.props.status})
     }
